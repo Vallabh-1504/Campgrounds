@@ -27,7 +27,10 @@ const seedDB = async ()=> {
             price: price,
             geometry: {
                 type: "Point",
-                coordinates: [-113.1331, 47.0202],
+                coordinates: [
+                    cities[rand].longitude,
+                    cities[rand].latitude,
+                ],
             },
             images: [
                 {

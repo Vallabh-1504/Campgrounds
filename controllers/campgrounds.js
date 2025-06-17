@@ -6,7 +6,19 @@ maptilerClient.config.apiKey = process.env.MAPTILER_API_KEY;
 
 module.exports.index = async (req, res)=> {
     const campgrounds = await Campground.find({});
-    res.render('campgrounds/index', {campgrounds});
+
+    const geoJSONCampgrounds = {
+        type: 'FeatureCollection',
+        features: campgrounds.map(camp => ({
+            type: 'Feature',
+            geometry: camp.geometry,
+            properties: {
+                id: camp._id,
+                popUpMarkup: camp.popUpMarkup
+            }
+        }))
+    };
+    res.render('campgrounds/index', {campgrounds, geoJSONCampgrounds});
 }
 
 module.exports.renderNewForm = (req, res)=> {

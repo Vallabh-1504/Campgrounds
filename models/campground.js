@@ -46,12 +46,17 @@ const CampgroundSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Review'
         }
-    ]
+    ],
 },{
     toObject: { virtuals: true }, 
     toJSON: { virtuals: true }
 });
 // mongoose.set('strictQuery', true);
+
+CampgroundSchema.virtual('popUpMarkup').get(function(){
+    return `<strong><a href="/campgrounds/${this._id}">${this.title}</a></strong><p>${this.description.substring(0, 20)}...</p>`
+});
+
 
 CampgroundSchema.post('findOneAndDelete', async function(doc){
     if(doc){

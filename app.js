@@ -72,6 +72,10 @@ app.use('/campgrounds', campgroundsRoutes);
 app.use('/campgrounds/:id/reviews', reviewsRoutes)
 app.use('/', usersRoutes);
 
+app.use('/', (req, res) =>{
+    res.render('home', {title: 'Home'});
+});
+
 
 // 404 for anhy other route
 app.all(/(.*)/, (req, res, next) =>{
