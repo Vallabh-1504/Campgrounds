@@ -47,11 +47,11 @@
                 <label class="form-label">Existing Images</label>
                 <div class="row">
                     <% campground.images.forEach((img, i) => { %>
-                        <div class="col-4 mb-3 text-center">
-                            <img src="<%= img.thumbnail %>" class="img-fluid rounded mb-2" style="max-height: 150px;" alt="Image">
+                        <div class="col-4 mb-2">
+                            <img src="<%= img.thumbnail %>" class="img-fluid rounded mb-1" style="max-height: 200px; object-fit: cover;" alt="Image">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="deleteImages[]" value="<%= img.filename %>" id="image-<%= i %>">
-                                <label class="form-check-label" for="image-<%= i %>">Delete</label>
+                                <label class="form-check-label" for="image-<%= i %>"> Delete</label>
                             </div>
                         </div>
                     <% }) %>
@@ -61,9 +61,9 @@
 
             <!-- Submit -->
             <div class="mb-3">
-                <button class="btn btn-info">Update Campground</button>
+                <button class="btn btn-info me-3">Update Campground</button>
+                <a href="/campgrounds/<%= campground._id %>">Back To Campground</a>
             </div>
         </form>
-        <a href="/campgrounds/<%= campground._id %>">Back To Campground</a>
     </div>
 </div>

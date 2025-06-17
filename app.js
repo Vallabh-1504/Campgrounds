@@ -73,7 +73,7 @@ app.use('/campgrounds/:id/reviews', reviewsRoutes)
 app.use('/', usersRoutes);
 
 app.use('/', (req, res) =>{
-    res.render('home', {title: 'Home'});
+    res.render('home');
 });
 
 

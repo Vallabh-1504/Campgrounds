@@ -4,12 +4,12 @@
 
 <div class="row">
     <!-- Left Column: Carousel and Campground Info -->
-    <div class="col-md-6">
+    <div class="col-md-5 mt-3">
         <div id="campgroundCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <% campground.images.forEach((img, i) => { %>
                     <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
-                        <img src="<%= img.url %>" class="d-block w-100" alt="Campground image">
+                        <img src="<%= img.url %>" class="d-block w-100" alt="Campground image" style="max-height: 400px;">
                     </div>
                 <% }) %>
             </div>
@@ -33,7 +33,6 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item text-muted"><%= campground.location %></li>
-                <li class="list-group-item">Submitted by <%= campground.author.username %></li>
                 <li class="list-group-item">$<%= campground.price %>/night</li>
             </ul>
             <% if(currentUser && campground.author.equals(currentUser._id)) { %>
@@ -47,23 +46,23 @@
             <div class="card-footer text-muted">2 days ago</div>
         </div>
     </div>
-    <div class="col-6">
-        <div id='map' style='width: 100%; height: 300px;'>       
+
+    <div class="col-6 ">
+        <div id='map' class="my-3" style='width: 100%; height: 400px;' class="card mt-3 mb-4"></div>
     </div>
 
-
     <!-- Right Column: Reviews -->
-    <div class="col-md-6">
+    <div class="col-md-5">
         <% if(currentUser) { %>
-            <h2 class="mb-3">Leave a Review</h2>
+            <h2 class="mb-1 mt-3">Leave a Review</h2>
             <form action="/campgrounds/<%= campground._id %>/reviews" method="POST" class="validated-form" novalidate>
                 <!-- Star Rating Input -->
                 <div class="mb-3">
                     <label class="form-label">Rating</label>
-                    <div class="star-rating">
+                    <div class="star-rating d-flex gap-2">
                         <% for (let i = 1; i <= 5; i++) { %>
-                            <input type="radio" name="review[rating]" value="<%= i %>" id="star<%= i %>" required>
-                            <label for="star<%= i %>"><i class="bi bi-star-fill"></i></label>
+                            <input type="radio" name="review[rating]" value="<%= i %>" id="star<%= i %>" required hidden>
+                            <label for="star<%= i %>"><i class="bi bi-star-fill" style="cursor: pointer;"></i></label>
                         <% } %>
                     </div>
                 </div>
@@ -112,6 +111,7 @@
 
 <script>
     const maptilerApiKey = '<%- process.env.MAPTILER_API_KEY %>';
-    const campground = <%- JSON.stringify(campground) %></script>
+    const campground = <%- JSON.stringify(campground) %>
+</script>
 
 <script src="/showPageMap.js"></script>
