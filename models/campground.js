@@ -3,17 +3,22 @@ const Review = require('./review');
 const { string } = require('joi');
 
 
+
 // https://res.cloudinary.com/dru46ezau/image/upload/v1749984475/YelpCamp/ufrumnrayrburuwparnc.jpg
 
 const ImageSchema = new mongoose.Schema({
     url: String,
-    filename: String
-})
-ImageSchema.virtual('thumbnail').get(function(){
-    return this.url.replace('/upload', 'upload/w_200');
+    filename: String,
 });
-ImageSchema.set('toJSON', { virtuals: true });
 
+ImageSchema.virtual('thumbnail').get(function(){
+    if(!this.url) return '';
+    const parts = this.url.split('/upload/');
+    return `${parts[0]}/upload/w_200/${parts[1]}`;
+});
+
+ImageSchema.set('toJSON', { virtuals: true });
+ImageSchema.set('toObject', { virtuals: true });
 
 const CampgroundSchema = new mongoose.Schema({
     title: String,
@@ -31,8 +36,10 @@ const CampgroundSchema = new mongoose.Schema({
             ref: 'Review'
         }
     ]
-}, {toJSON: {virtuals: true}});
-
+},{
+    toObject: { virtuals: true }, 
+    toJSON: { virtuals: true }
+});
 // mongoose.set('strictQuery', true);
 
 CampgroundSchema.post('findOneAndDelete', async function(doc){
