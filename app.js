@@ -1,6 +1,10 @@
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
+
+const secret = process.env.SESSION_SECRET;
+const PORT = process.env.PORT || 3000;
+const dbUrl = process.env.MONGO_URL || "mongodb://localhost:27017/CampPoint"
 
 const express = require('express');
 const path = require('path');
@@ -20,7 +24,7 @@ const campgroundsRoutes = require('./routes/campgrounds');
 const reviewsRoutes = require('./routes/reviews');
 const usersRoutes = require('./routes/users');
 
-mongoose.connect('mongodb://localhost:27017/CampPoint');
+mongoose.connect(dbUrl);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error: '));
@@ -40,10 +44,10 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')))
 
 const sessionConfig = {
-    secret: 'keyboard',
+    secret: secret,
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({mongoUrl: 'mongodb://localhost:27017/CampPoint'}),
+    store: MongoStore.create({mongoUrl: dbUrl}),
     cookie: {
         httpOnly: true,
         expires: Date.now() + 1000 * 60 * 60 * 24,
@@ -90,6 +94,6 @@ app.use((err, req, res, next)=> {
 });
 
 
-app.listen(3000, (req, res)=> {
+app.listen(PORT, (req, res)=> {
     console.log('server started');
 });
